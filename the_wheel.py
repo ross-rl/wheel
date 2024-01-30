@@ -28,7 +28,7 @@ def open_ai_data(metadata: dict[str, str], input: list[str]) -> tuple[list[str],
     print(metadata)
     user_message = ChatCompletionUserMessageParam(content=input[0], role="user")
 
-    history = json.loads(metadata.get("history", []))
+    history = json.loads(metadata.get("history", "{}"))
 
     response = _client.chat.completions.create(
         model=_model,
