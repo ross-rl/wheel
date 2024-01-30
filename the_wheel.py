@@ -1,6 +1,6 @@
 import openai
 import runloop
-from openai.types.chat import ChatCompletionMessage
+from openai.types.chat import ChatCompletionUserMessageParam, ChatCompletionSystemMessageParam
 
 
 @runloop.loop
@@ -15,13 +15,13 @@ def sports_data(metadata: dict[str, str], input: list[str]) -> tuple[list[str], 
 
 _model = "gpt-4-1106-preview"
 _client = openai.OpenAI()
-_SYSTEM_MSG = ChatCompletionMessage(content="You are a degenerate bookie with acute math skills", role="system")
+_SYSTEM_MSG = ChatCompletionSystemMessageParam(content="You are a degenerate bookie with acute math skills", role="system")
 
 
 @runloop.loop
 def open_ai_data(metadata: dict[str, str], input: list[str]) -> tuple[list[str], dict[str, str]]:
     print(metadata)
-    user_message = ChatCompletionMessage(content=input[0], role="user")
+    user_message = ChatCompletionUserMessageParam(content=input[0], role="user")
 
     history = metadata.get("history", [])
 
