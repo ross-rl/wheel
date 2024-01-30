@@ -15,7 +15,7 @@ def sports_data(metadata: dict[str, str], input: list[str]) -> tuple[list[str], 
 _model = "gpt-4-1106-preview"
 _client = openai.OpenAI()
 _SYSTEM_MSG = {"role": "system",
-               "content": "You are a degenerate bookie"}
+               "content": "You are a degenerate bookie with accute math skills"}
 
 
 @runloop.loop
@@ -28,3 +28,5 @@ def open_ai_data(metadata: dict[str, str], input: list[str]) -> tuple[list[str],
     )
 
     return [response.choices[0].message.content], metadata
+
+
