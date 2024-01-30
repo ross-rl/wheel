@@ -1,6 +1,6 @@
 import runloop
 import openai
-
+from openai.types.chat import ChatCompletionMessage, ChatCompletionSystemMessageParam, ChatCompletionUserMessageParam
 
 @runloop.loop
 def wheel_it(metadata: dict[str, str], input: list[str]) -> tuple[list[str], dict[str, str]]:
@@ -14,19 +14,21 @@ def sports_data(metadata: dict[str, str], input: list[str]) -> tuple[list[str], 
 
 _model = "gpt-4-1106-preview"
 _client = openai.OpenAI()
-_SYSTEM_MSG = {"role": "system",
-               "content": "You are a degenerate bookie with accute math skills"}
+_SYSTEM_MSG = ChatCompletionSystemMessageParam(content="You are a degenerate bookie with acute math skills")
 
 
 @runloop.loop
 def open_ai_data(metadata: dict[str, str], input: list[str]) -> tuple[list[str], dict[str, str]]:
-    user_message = {"role": "user", "content": f"{input[0]}"}
+    print(metadata)
+    user_message = ChatCompletionUserMessageParam(content=input[0])
+
+    history = metadata.get("history", [])
 
     response = _client.chat.completions.create(
         model=_model,
-        messages=[_SYSTEM_MSG] + [user_message],
+        messages=[_SYSTEM_MSG] + history + [user_message],
     )
 
+    metadata["history"] = history + [user_message] + [response.choices[0].message]
+
     return [response.choices[0].message.content], metadata
-
-
