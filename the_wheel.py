@@ -23,6 +23,7 @@ class MessageList(pydantic.BaseModel):
     messages: list[ChatCompletionMessageParam]
 
 
+
 @runloop.loop
 def open_ai_data(metadata: dict[str, str], input: list[str]) -> tuple[list[str], dict[str, str]]:
     print(metadata)
