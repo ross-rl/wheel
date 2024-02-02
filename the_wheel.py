@@ -23,7 +23,6 @@ class MessageList(pydantic.BaseModel):
     messages: list[ChatCompletionMessageParam]
 
 
-
 @runloop.loop
 def open_ai_data(metadata: dict[str, str], input: list[str]) -> tuple[list[str], dict[str, str]]:
     print(metadata)
@@ -42,3 +41,30 @@ def open_ai_data(metadata: dict[str, str], input: list[str]) -> tuple[list[str],
                                                                           role="assistant")])
 
     return [response.choices[0].message.content], metadata
+
+_HISTORY_KEY = "history"
+
+
+@runloop.loop
+def ex_chat(
+    metadata: dict[str, str],
+    inputs: list[str]
+) -> tuple[list[str], dict[str, str]]:
+    print(f"handle_input metadata={metadata} input={inputs}")
+    next_user_line = {"role": "user", "content": inputs[0]}
+    existing_non_system_messages = json.loads(metadata.get(_HISTORY_KEY, "[]"))
+
+    messages_to_process = existing_non_system_messages + [next_user_line]
+    response = _client.chat.completions.create(
+        model=_model,
+        messages=[_SYSTEM_MSG] + messages_to_process,
+    )
+
+    print(f"got response={response}")
+    # TODO: determine how to propagate errors
+    ai_response_message = response.choices[0].message
+
+    metadata[_HISTORY_KEY] = json.dumps(
+        messages_to_process + [ai_response_message.model_dump_json()])
+
+    return [ai_response_message.content], metadata
