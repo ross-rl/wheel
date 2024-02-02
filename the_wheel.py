@@ -1,6 +1,5 @@
 import openai
 import runloop
-from openai.types.chat import ChatCompletionUserMessageParam, ChatCompletionSystemMessageParam, ChatCompletionAssistantMessageParam, ChatCompletionMessageParam
 import json
 import pydantic
 
@@ -14,14 +13,11 @@ def sports_data(metadata: dict[str, str], input: list[str]) -> tuple[list[str], 
     return [f"The game was close, they had many points"], metadata
 
 
+from openai.types.chat import ChatCompletionUserMessageParam, ChatCompletionSystemMessageParam, ChatCompletionAssistantMessageParam, ChatCompletionMessageParam
+
 _model = "gpt-4-1106-preview"
 _client = openai.OpenAI()
 _SYSTEM_MSG = ChatCompletionSystemMessageParam(content="You are a degenerate bookie with acute math skills", role="system")
-
-
-class MessageList(pydantic.BaseModel):
-    messages: list[ChatCompletionMessageParam]
-
 
 @runloop.loop
 def open_ai_data(metadata: dict[str, str], input: list[str]) -> tuple[list[str], dict[str, str]]:
