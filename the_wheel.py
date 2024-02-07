@@ -3,6 +3,7 @@ import runloop
 import json
 import pydantic
 
+
 @runloop.loop
 def wheel_it(metadata: dict[str, str], input: list[str]) -> tuple[list[str], dict[str, str]]:
     return [f"12345 I am the wheel! let's start simple! {input}"], metadata
