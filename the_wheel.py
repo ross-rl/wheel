@@ -12,8 +12,7 @@ class WheelResponse(pydantic.BaseModel):
 
 @runloop.function
 def wheel_it(request: WheelRequest) -> WheelResponse:
-    print("hello")
-    return WheelResponse(echo=f"12345 I am the wheel! let's start simple! {request}")
+    return WheelResponse(echo=f"12345 I am the wheel, echo! {request}")
 
 
 #
