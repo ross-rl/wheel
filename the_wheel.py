@@ -11,7 +11,7 @@ class WheelResponse(pydantic.BaseModel):
 
 
 class KvStorageSimple(pydantic.BaseModel):
-    k1: str
+    k1: str = ""
 
 
 @runloop.function
