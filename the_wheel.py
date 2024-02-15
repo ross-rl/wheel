@@ -10,9 +10,19 @@ class WheelResponse(pydantic.BaseModel):
     echo: str
 
 
+class KvStorageSimple(pydantic.BaseModel):
+    k1: str
+
+
 @runloop.function
 def wheel_it(request: WheelRequest) -> WheelResponse:
     return WheelResponse(echo=f"12345 I am the wheel, echo! {request}")
+
+
+@runloop.function
+def concat(request: WheelRequest, s1: runloop.Session[KvStorageSimple]) -> WheelResponse:
+    s1.kv.k1 = s1.kv.k1 + " <> " + request.echo
+    return WheelResponse(echo=s1.kv.k1)
 
 
 #
