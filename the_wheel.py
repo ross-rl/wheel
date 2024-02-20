@@ -33,17 +33,22 @@ import time
 @runloop.function
 def concat(request: WheelRequest, s1: runloop.Session[KvStorageCounter]) -> WheelResponse:
     s1.kv.k1 = s1.kv.k1 + 1
+    s1.commit_session()
     time.sleep(1)
     s1.kv.k1 = s1.kv.k1 + 1
+    s1.commit_session()
     time.sleep(1)
     s1.kv.k1 = s1.kv.k1 + 1
+    s1.commit_session()
     time.sleep(1)
     s1.kv.k1 = s1.kv.k1 + 1
+    s1.commit_session()
     time.sleep(1)
     s1.kv.k1 = s1.kv.k1 + 1
+    s1.commit_session()
     time.sleep(1)
 
-    println("Returning!")
+    print("Returning!")
     return WheelResponse(echo=s1.kv.k1)
 
 #
