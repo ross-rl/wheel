@@ -25,6 +25,27 @@ def concat(request: WheelRequest, s1: runloop.Session[KvStorageSimple]) -> Wheel
     return WheelResponse(echo=s1.kv.k1)
 
 
+class KvStorageCounter(pydantic.BaseModel):
+    k1: int = 0
+
+
+import time
+@runloop.function
+def concat(request: WheelRequest, s1: runloop.Session[KvStorageCounter]) -> WheelResponse:
+    s1.kv.k1 = s1.kv.k1 + 1
+    time.sleep(1)
+    s1.kv.k1 = s1.kv.k1 + 1
+    time.sleep(1)
+    s1.kv.k1 = s1.kv.k1 + 1
+    time.sleep(1)
+    s1.kv.k1 = s1.kv.k1 + 1
+    time.sleep(1)
+    s1.kv.k1 = s1.kv.k1 + 1
+    time.sleep(1)
+
+    println("Returning!")
+    return WheelResponse(echo=s1.kv.k1)
+
 #
 # @runloop.loop
 # def sports_data(metadata: dict[str, str], input: list[str]) -> tuple[list[str], dict[str, str]]:
