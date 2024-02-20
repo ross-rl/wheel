@@ -31,8 +31,8 @@ class KvStorageCounter(pydantic.BaseModel):
 
 import time
 @runloop.function
-def concat(request: WheelRequest, s1: runloop.Session[KvStorageCounter]) -> WheelResponse:
-    s1.kv.k1 = s1.kv.k1 + 1
+def strm(request: int, s1: runloop.Session[KvStorageCounter]) -> int:
+    s1.kv.k1 = request + 1
     s1.commit_session()
     time.sleep(1)
     s1.kv.k1 = s1.kv.k1 + 1
@@ -49,7 +49,7 @@ def concat(request: WheelRequest, s1: runloop.Session[KvStorageCounter]) -> Whee
     time.sleep(1)
 
     print("Returning!")
-    return WheelResponse(echo=s1.kv.k1)
+    return s1.kv.k1
 
 #
 # @runloop.loop
