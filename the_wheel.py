@@ -4,7 +4,6 @@ import runloop
 class WheelRequest(pydantic.BaseModel):
     echo: str
 
-
 class WheelResponse(pydantic.BaseModel):
     echo: str
 
