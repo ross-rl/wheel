@@ -55,15 +55,15 @@ def strm(request: int, s1: runloop.Session[KvStorageCounter]) -> int:
 
 @runloop.async_function
 def scheduled(request: int) -> int:
-    print("executed!")
+    print("executed scheduled job!")
     return request
 
 
 @runloop.function
 def schedule(request: int, scheduler: runloop.Scheduler) -> int:
-    print("scheduling")
-    scheduled_time = int((time.time_ns() + 20 * 1_000_000_000) / 1_000_000)
-    print(f"scheduling at time {scheduled_time} ms")
+    print("running synchronous schedule job!")
+    scheduled_time = int((time.time_ns() + 40 * 1_000_000_000) / 1_000_000)
+    print(f"scheduling 40 seconds out at time {scheduled_time} ms")
     scheduler.schedule_at_time(scheduled(request), scheduled_time)
     return 0
 
