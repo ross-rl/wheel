@@ -59,7 +59,7 @@ def scheduled(request: int) -> int:
     return request
 
 
-@runloop.async_function
+@runloop.function
 def schedule(request: int, scheduler: runloop.Scheduler) -> int:
     print("scheduling")
     scheduled_time = int((time.time_ns() + 20 * 1_000_000_000) / 1_000_000)
