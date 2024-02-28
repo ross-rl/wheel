@@ -10,7 +10,7 @@ idna==3.6
 openai==1.10.0
 pydantic==2.6.1
 pydantic_core==2.16.2
-runloop==0.0.11
+runloop==0.0.13
 sniffio==1.3.0
 tqdm==4.66.1
 typing_extensions==4.9.0

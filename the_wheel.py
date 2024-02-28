@@ -1,9 +1,11 @@
 import pydantic
 import runloop
+import time
 
 
 class WheelRequest(pydantic.BaseModel):
     echo: str
+
 
 class WheelResponse(pydantic.BaseModel):
     echo: str
@@ -49,6 +51,21 @@ def strm(request: int, s1: runloop.Session[KvStorageCounter]) -> int:
 
     print("Returning!")
     return s1.kv.k1
+
+
+@runloop.async_function
+def scheduled(request: int) -> int:
+    print("executed!")
+    return request
+
+
+@runloop.async_function
+def schedule(request: int, scheduler: runloop.Scheduler) -> int:
+    print("scheduling")
+    scheduled_time = int((time.time_ns() + 20 * 1_000_000_000) / 1_000_000)
+    print(f"scheduling at time {scheduled_time} ms")
+    scheduler.schedule_at_time(scheduled(request), scheduled_time)
+    return 0
 
 #
 # @runloop.loop
